@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&amp;display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #002810; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #7E9C8B; }
+  ::selection { background: #0F5136; color: #002810; }
+  input { outline: none; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #F2EFEB; color: #14181A;">
+
+  <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 60;">
+    <sc-if value="{{ showAnnouncement }}" hint-placeholder-val="{{ true }}">
+      <div style="background: #002810; color: #C7CCC6; font-size: 10px; letter-spacing: 0.22em; text-align: center; padding: 9px 16px; text-transform: uppercase;">Frete grátis acima de R$ 400 &nbsp;·&nbsp; 5% off no PIX</div>
+    </sc-if>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; background: {{ navBg }}; color: {{ navFg }}; border-bottom: {{ navBorder }}; transition: background .5s ease, color .5s ease, border-color .5s ease; backdrop-filter: blur(6px);">
+      <nav style="display: flex; gap: 32px; font-size: 11px; letter-spacing: 0.18em; flex: 1;">
+        <a href="#new">SHOP</a>
+        <a href="#new">NEW IN</a>
+        <a href="#collections">COLLECTIONS</a>
+      </nav>
+      <a href="#top" style="font-family: 'Bodoni Moda', serif; font-size: 24px; letter-spacing: 0.42em; font-weight: 400; text-indent: 0.42em; white-space: nowrap;">MERAUDE</a>
+      <nav style="display: flex; gap: 32px; font-size: 11px; letter-spacing: 0.18em; flex: 1; justify-content: flex-end;">
+        <a href="#new">SEARCH</a>
+        <a href="#new">ACCOUNT</a>
+        <a href="#bag" onClick="{{ openBag }}">BAG ({{ bagCount }})</a>
+      </nav>
+    </div>
+  </div>
+
+  <section id="top" data-screen-label="Hero" style="position: relative; height: 100vh; min-height: 640px; background: #002810;">
+    <div style="position: absolute; inset: 0;">
+      <image-slot id="hero" shape="rect" placeholder="Hero campaign — extreme close-up, gold on skin, low light"></image-slot>
+    </div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,40,16,0.72) 0%, rgba(0,40,16,0.12) 45%, rgba(0,40,16,0.25) 100%); pointer-events: none;"></div>
+    <div style="position: absolute; left: 48px; right: 48px; bottom: 72px; color: #F2EFEB; pointer-events: none; display: flex; flex-direction: column; gap: 28px; align-items: flex-start;">
+      <h1 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(52px, 8.5vw, 138px); line-height: 0.96; letter-spacing: 0.01em; margin: 0; text-wrap: balance;">WEAR NOTHING ELSE.</h1>
+      <p style="font-size: 13px; letter-spacing: 0.24em; margin: 0; text-transform: uppercase; color: #C7CCC6;">Jewelry made to be noticed.</p>
+      <a href="#new" style="pointer-events: auto; display: inline-block; border: 1px solid #F2EFEB; padding: 16px 40px; font-size: 11px; letter-spacing: 0.26em; transition: all .4s;" style-hover="background: #F2EFEB; color: #002810;">SHOP THE COLLECTION</a>
+    </div>
+  </section>
+
+  <section id="new" data-screen-label="New Obsessions" style="padding: 128px 48px 96px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 56px;">
+      <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: 44px; letter-spacing: 0.06em; margin: 0;">NEW OBSESSIONS</h2>
+      <a href="#new" style="font-size: 11px; letter-spacing: 0.2em; border-bottom: 1px solid #14181A; padding-bottom: 3px;">VIEW ALL</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px;">
+      <sc-for list="{{ obsessions }}" as="item" hint-placeholder-count="4">
+        <div onMouseEnter="{{ item.enter }}" onMouseLeave="{{ item.leave }}" style="position: relative; display: flex; flex-direction: column; gap: 14px;">
+          <a href="Meraude Product.dc.html" style="position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: #FAFAF8;">
+            <sc-if value="{{ item.img }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ item.img }}" alt="{{ item.name }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale({{ item.scale }}); transition: transform .9s cubic-bezier(.19,1,.22,1);">
+            </sc-if>
+            <sc-if value="{{ item.noImg }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; inset: 0;">
+                <image-slot id="{{ item.slotId }}" shape="rect" placeholder="Product shot — {{ item.name }}"></image-slot>
+              </div>
+            </sc-if>
+            <sc-if value="{{ item.tag }}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; top: 14px; left: 14px; font-size: 9px; letter-spacing: 0.24em; background: #002810; color: #C7CCC6; padding: 6px 10px; pointer-events: none;">{{ item.tag }}</span>
+            </sc-if>
+          </a>
+          <button onClick="{{ item.add }}" style="position: absolute; left: 14px; right: 14px; bottom: 88px; padding: 13px 0; background: rgba(242,239,235,0.94); color: #14181A; border: none; font-size: 10px; letter-spacing: 0.24em; cursor: pointer; opacity: {{ item.qa }}; transition: opacity .35s; font-family: inherit;" style-hover="background: #002810; color: #C7CCC6;">QUICK ADD</button>
+          <div style="display: flex; flex-direction: column; gap: 5px;">
+            <a href="Meraude Product.dc.html" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;">{{ item.name }}</a>
+            <span style="font-size: 12px; color: #66716B;">{{ item.price }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="After Dark campaign" style="position: relative; height: 78vh; min-height: 520px; background: #002810;">
+    <div style="position: absolute; inset: 0;">
+      <image-slot id="after-dark" shape="rect" placeholder="Campaign — black silk, flash photography, night"></image-slot>
+    </div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,40,16,0.62) 0%, rgba(0,40,16,0.05) 60%); pointer-events: none;"></div>
+    <div style="position: absolute; left: 48px; bottom: 64px; color: #F2EFEB; pointer-events: none; display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+      <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(44px, 5.5vw, 84px); letter-spacing: 0.08em; margin: 0;">AFTER DARK</h2>
+      <p style="font-size: 13px; letter-spacing: 0.18em; margin: 0; color: rgba(242,239,235,0.85);">Some things look better at night.</p>
+      <a href="#new" style="pointer-events: auto; font-size: 11px; letter-spacing: 0.24em; border-bottom: 1px solid #C7CCC6; padding-bottom: 4px; color: #C7CCC6;">DISCOVER THE COLLECTION</a>
+    </div>
+  </section>
+
+  <section id="collections" data-screen-label="Shop by category" style="padding: 120px 48px;">
+    <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: 44px; letter-spacing: 0.06em; margin: 0 0 56px;">SHOP BY CATEGORY</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px;">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="4">
+        <a href="#new" style="position: relative; display: block; aspect-ratio: 3 / 4.4; overflow: hidden; background: #0A3A22;">
+          <div style="position: absolute; inset: 0;">
+            <image-slot id="{{ cat.slotId }}" shape="rect" placeholder="{{ cat.hint }}"></image-slot>
+          </div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 22px; pointer-events: none; display: flex; justify-content: space-between; align-items: baseline; color: #F2EFEB; background: linear-gradient(to top, rgba(0,40,16,0.55), transparent 90%);">
+            <span style="font-size: 13px; letter-spacing: 0.26em;">{{ cat.name }}</span>
+            <span style="font-family: 'Bodoni Moda', serif; font-size: 16px;">→</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Brand statement" style="padding: 180px 48px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 40px;">
+    <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(30px, 3.6vw, 56px); line-height: 1.24; letter-spacing: 0.04em; margin: 0; max-width: 900px; text-wrap: balance;">NOT MADE TO COMPLETE THE LOOK.<br>MADE TO BECOME THE LOOK.</h2>
+    <p style="font-size: 11px; letter-spacing: 0.24em; color: #66716B; margin: 0; text-transform: uppercase;">MERAUDE creates jewelry for women who know exactly what they want.</p>
+  </section>
+
+  <section data-screen-label="Most Wanted" style="padding: 0 0 128px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 48px; margin-bottom: 48px;">
+      <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: 44px; letter-spacing: 0.06em; margin: 0;">MOST WANTED</h2>
+      <span style="font-size: 10px; letter-spacing: 0.2em; color: #66716B;">SCROLL →</span>
+    </div>
+    <div style="display: flex; gap: 24px; overflow-x: auto; padding: 0 48px 24px; scrollbar-width: thin; scrollbar-color: #0F5136 transparent;">
+      <sc-for list="{{ wanted }}" as="item" hint-placeholder-count="6">
+        <div onMouseEnter="{{ item.enter }}" onMouseLeave="{{ item.leave }}" style="position: relative; flex: 0 0 300px; display: flex; flex-direction: column; gap: 12px;">
+          <a href="Meraude Product.dc.html" style="position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: #FAFAF8;">
+            <img src="{{ item.img }}" alt="{{ item.name }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale({{ item.scale }}); transition: transform .9s cubic-bezier(.19,1,.22,1);">
+          </a>
+          <button onClick="{{ item.add }}" style="position: absolute; left: 14px; right: 14px; bottom: 78px; padding: 12px 0; background: rgba(242,239,235,0.94); color: #14181A; border: none; font-size: 10px; letter-spacing: 0.24em; cursor: pointer; opacity: {{ item.qa }}; transition: opacity .35s; font-family: inherit;" style-hover="background: #002810; color: #C7CCC6;">ADD TO BAG</button>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
+            <a href="Meraude Product.dc.html" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;">{{ item.name }}</a>
+            <span style="font-size: 12px; color: #66716B;">{{ item.price }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Keep your jewelry on" style="position: relative; height: 92vh; min-height: 560px; background: #002810;">
+    <div style="position: absolute; inset: 0; filter: grayscale(1) contrast(1.05);">
+      <image-slot id="keep-on" shape="rect" placeholder="B&amp;W campaign — bare shoulder, gold chain, hotel room"></image-slot>
+    </div>
+    <div style="position: absolute; inset: 0; background: rgba(0,40,16,0.42); pointer-events: none;"></div>
+    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; text-align: center; color: #F2EFEB; pointer-events: none; padding: 0 24px;">
+      <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 5vw, 76px); letter-spacing: 0.1em; margin: 0; text-wrap: balance;">KEEP YOUR JEWELRY ON.</h2>
+      <a href="#new" style="pointer-events: auto; font-size: 11px; letter-spacing: 0.28em; color: #C7CCC6;">SHOP MERAUDE →</a>
+    </div>
+  </section>
+
+  <section data-screen-label="Seen on you" style="padding: 120px 48px;">
+    <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: 44px; letter-spacing: 0.06em; margin: 0 0 16px;">SEEN ON YOU</h2>
+    <p style="font-size: 11px; letter-spacing: 0.2em; color: #66716B; margin: 0 0 56px; text-transform: uppercase;">Tag @meraude to be seen.</p>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 16px;">
+      <div style="grid-column: span 2; grid-row: span 2; position: relative;"><image-slot id="ugc-1" shape="rect" placeholder="Creator content — jewelry on skin"></image-slot></div>
+      <div style="position: relative;"><img src="uploads/pasted-1787255461607-0.png" alt="Meraude packaging" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"></div>
+      <div style="position: relative;"><image-slot id="ugc-2" shape="rect" placeholder="Customer photo"></image-slot></div>
+      <div style="position: relative;"><image-slot id="ugc-3" shape="rect" placeholder="Campaign detail"></image-slot></div>
+      <div style="position: relative;"><img src="uploads/pasted-1787255472264-0.png" alt="Meraude pendant" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"></div>
+    </div>
+  </section>
+
+  <section data-screen-label="Newsletter" style="background: #002810; color: #F2EFEB; padding: 160px 48px; display: flex; flex-direction: column; align-items: center; gap: 36px; text-align: center;">
+    <h2 style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(48px, 7vw, 108px); letter-spacing: 0.06em; margin: 0;">COME CLOSER.</h2>
+    <p style="font-size: 12px; letter-spacing: 0.18em; color: rgba(242,239,235,0.6); margin: 0; max-width: 520px; line-height: 1.9;">Private drops, new obsessions and things we only tell our list.</p>
+    <sc-if value="{{ nlPending }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; gap: 0; width: 100%; max-width: 480px; border-bottom: 1px solid rgba(242,239,235,0.35);">
+        <input type="email" placeholder="Your email" style="flex: 1; background: transparent; border: none; color: #F2EFEB; font-size: 13px; letter-spacing: 0.08em; padding: 16px 4px; font-family: inherit;">
+        <button onClick="{{ subscribe }}" style="background: transparent; border: none; color: #C7CCC6; font-size: 11px; letter-spacing: 0.26em; cursor: pointer; padding: 16px 4px; font-family: inherit;" style-hover="color: #F2EFEB;">LET ME IN</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ nlDone }}" hint-placeholder-val="{{ false }}">
+      <p style="font-size: 12px; letter-spacing: 0.24em; color: #C7CCC6; margin: 0;">YOU&#8217;RE IN. WATCH YOUR INBOX.</p>
+    </sc-if>
+  </section>
+
+  <footer data-screen-label="Footer" style="background: #002810; color: rgba(242,239,235,0.72); padding: 72px 48px 40px; border-top: 1px solid rgba(242,239,235,0.12);">
+    <div style="display: flex; flex-wrap: wrap; gap: 64px; justify-content: space-between; margin-bottom: 72px;">
+      <span style="font-family: 'Bodoni Moda', serif; font-size: 20px; letter-spacing: 0.42em; color: #F2EFEB;">MERAUDE</span>
+      <nav style="display: flex; flex-wrap: wrap; gap: 48px;">
+        <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.18em;">
+          <a href="#new">SHOP</a><a href="#new">NEW IN</a><a href="#collections">COLLECTIONS</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.18em;">
+          <a href="#top">ABOUT MERAUDE</a><a href="#top">CARE GUIDE</a><a href="#top">SHIPPING &amp; RETURNS</a><a href="#top">CONTACT</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.18em;">
+          <a href="#top">INSTAGRAM</a><a href="#top">TIKTOK</a>
+        </div>
+      </nav>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 10px; letter-spacing: 0.18em; color: rgba(242,239,235,0.4);">
+      <span>© MERAUDE 2026</span>
+      <span>PIX · CARTÃO EM ATÉ 12X · CEP EM TODO O BRASIL</span>
+    </div>
+  </footer>
+
+  <div onClick="{{ closeBag }}" style="position: fixed; inset: 0; background: rgba(0,40,16,0.5); z-index: 70; opacity: {{ ovOpacity }}; pointer-events: {{ ovEvents }}; transition: opacity .4s;"></div>
+  <aside id="bag" style="position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 92vw); background: #F2EFEB; z-index: 80; transform: translateX({{ drawerX }}); transition: transform .5s cubic-bezier(.19,1,.22,1); display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 26px 28px; border-bottom: 1px solid rgba(20,24,26,0.12);">
+      <span style="font-size: 12px; letter-spacing: 0.24em;">YOUR BAG ({{ bagCount }})</span>
+      <button onClick="{{ closeBag }}" style="background: none; border: none; font-size: 18px; cursor: pointer; font-family: inherit; color: #14181A;">×</button>
+    </div>
+    <div style="padding: 12px 28px; font-size: 10px; letter-spacing: 0.16em; color: #66716B; border-bottom: 1px solid rgba(20,24,26,0.08);">{{ freeMsg }}</div>
+    <div style="flex: 1; overflow-y: auto; padding: 20px 28px; display: flex; flex-direction: column; gap: 20px;">
+      <sc-if value="{{ bagEmpty }}" hint-placeholder-val="{{ true }}">
+        <p style="font-size: 12px; letter-spacing: 0.14em; color: #66716B; margin: 40px 0; text-align: center;">Your bag is empty. For now.</p>
+      </sc-if>
+      <sc-for list="{{ bagItems }}" as="b" hint-placeholder-count="0">
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <div style="width: 64px; height: 80px; background: #FAFAF8; flex: none; overflow: hidden;">
+            <sc-if value="{{ b.img }}" hint-placeholder-val="{{ true }}"><img src="{{ b.img }}" alt="{{ b.name }}" style="width: 100%; height: 100%; object-fit: cover;"></sc-if>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;">{{ b.name }}</span>
+            <span style="font-size: 11px; color: #66716B;">{{ b.price }}</span>
+          </div>
+          <button onClick="{{ b.rm }}" style="background: none; border: none; font-size: 10px; letter-spacing: 0.14em; cursor: pointer; color: #66716B; font-family: inherit;" style-hover="color: #14181A;">REMOVE</button>
+        </div>
+      </sc-for>
+    </div>
+    <div style="padding: 24px 28px 32px; border-top: 1px solid rgba(20,24,26,0.12); display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; font-size: 12px; letter-spacing: 0.18em;"><span>SUBTOTAL</span><span>{{ bagTotal }}</span></div>
+      <span style="font-size: 10px; letter-spacing: 0.12em; color: #66716B;">PIX -5% · ou em até 12x sem juros</span>
+      <button style="background: #002810; color: #C7CCC6; border: none; padding: 17px 0; font-size: 11px; letter-spacing: 0.28em; cursor: pointer; font-family: inherit; transition: all .4s;" style-hover="color: #F2EFEB;">CHECKOUT</button>
+    </div>
+  </aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAnnouncement&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Header&quot;},&quot;scrolledNav&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ivory&quot;,&quot;black&quot;],&quot;default&quot;:&quot;ivory&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Header&quot;}}">
+class Component extends DCLogic {
+  state = { solid: false, hov: null, bagOpen: false, bag: [], nlDone: false };
+  componentDidMount() {
+    this._onScroll = () => {
+      const s = (window.scrollY || document.documentElement.scrollTop) > 70;
+      if (s !== this.state.solid) this.setState({ solid: s });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); }
+  addItem(p) { this.setState(s => ({ bag: [...s.bag, p], bagOpen: true })); }
+  mk(list, key) {
+    return list.map((p, i) => {
+      const id = key + i, on = this.state.hov === id;
+      return Object.assign({}, p, {
+        noImg: !p.img, slotId: 'slot-' + id,
+        enter: () => this.setState({ hov: id }),
+        leave: () => this.setState({ hov: null }),
+        add: (e) => { if (e) { e.preventDefault(); e.stopPropagation(); } this.addItem(p); },
+        qa: on ? 1 : 0, scale: on ? 1.06 : 1
+      });
+    });
+  }
+  renderVals() {
+    const P = this.props, solid = this.state.solid;
+    const ivory = (P.scrolledNav ?? 'ivory') === 'ivory';
+    const obsessions = this.mk([
+      { name: 'Meraude Éclat Earrings', price: 'R$ 389', img: 'uploads/pasted-1787255555715-0.png', tag: 'NEW' },
+      { name: 'Meraude Nuit Necklace', price: 'R$ 549', img: 'uploads/pasted-1787255487807-0.png', tag: 'NEW' },
+      { name: 'Meraude Désir Ring', price: 'R$ 329', img: null },
+      { name: 'Meraude Amour Bracelet', price: 'R$ 429', img: null }
+    ], 'o');
+    const wanted = this.mk([
+      { name: 'Nuit Necklace', price: 'R$ 549', img: 'uploads/pasted-1787255487807-0.png' },
+      { name: 'Éclat Earrings', price: 'R$ 389', img: 'uploads/pasted-1787255555715-0.png' },
+      { name: 'Lumière Pendant', price: 'R$ 489', img: 'uploads/pasted-1787255472264-0.png' },
+      { name: 'Croix Necklace', price: 'R$ 459', img: 'uploads/pasted-1787255479316-0.png' },
+      { name: 'Minuit Hoops', price: 'R$ 399', img: 'uploads/pasted-1787255543618-0.png' },
+      { name: 'Ombre Studs', price: 'R$ 349', img: 'uploads/pasted-1787255597162-0.png' }
+    ], 'w');
+    const categories = [
+      { name: 'NECKLACES', slotId: 'cat-necklaces', hint: 'Editorial — necklace on collarbone' },
+      { name: 'EARRINGS', slotId: 'cat-earrings', hint: 'Editorial — earring, jawline, low light' },
+      { name: 'RINGS', slotId: 'cat-rings', hint: 'Editorial — hand on black silk' },
+      { name: 'BRACELETS', slotId: 'cat-bracelets', hint: 'Editorial — wrist, gold reflections' }
+    ];
+    const bag = this.state.bag;
+    const total = bag.reduce((t, p) => t + parseInt(p.price.replace(/\D/g, ''), 10), 0);
+    const fmt = (n) => 'R$ ' + n.toLocaleString('pt-BR');
+    return {
+      showAnnouncement: P.showAnnouncement ?? true,
+      navBg: solid ? (ivory ? 'rgba(242,239,235,0.96)' : 'rgba(0,40,16,0.96)') : 'transparent',
+      navFg: solid && ivory ? '#14181A' : '#F2EFEB',
+      navBorder: solid ? (ivory ? '1px solid rgba(20,24,26,0.12)' : '1px solid rgba(242,239,235,0.14)') : '1px solid transparent',
+      obsessions, wanted, categories,
+      bagCount: bag.length, bagEmpty: bag.length === 0,
+      bagItems: bag.map((p, i) => Object.assign({}, p, { rm: () => this.setState(s => ({ bag: s.bag.filter((_, j) => j !== i) })) })),
+      bagTotal: fmt(total),
+      freeMsg: total >= 400 ? 'Frete grátis desbloqueado.' : 'Faltam ' + fmt(400 - total) + ' para frete grátis.',
+      openBag: (e) => { if (e) e.preventDefault(); this.setState({ bagOpen: true }); },
+      closeBag: () => this.setState({ bagOpen: false }),
+      drawerX: this.state.bagOpen ? '0%' : '105%',
+      ovOpacity: this.state.bagOpen ? 1 : 0,
+      ovEvents: this.state.bagOpen ? 'auto' : 'none',
+      subscribe: () => this.setState({ nlDone: true }),
+      nlDone: this.state.nlDone, nlPending: !this.state.nlDone
+    };
+  }
+}
+</script>
+</body>
+</html>
